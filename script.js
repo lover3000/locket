@@ -32,7 +32,7 @@ navigator.mediaDevices.getUserMedia({ video: true })
 
 
 function loadImages() {
-    fetch(`http://${getServerIPCookie()}:3000/images?page=${currentPage}&limit=${limit}`)
+    fetch(`${getServerIPCookie()}/images?page=${currentPage}&limit=${limit}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Không thể tải ảnh');
@@ -45,7 +45,7 @@ function loadImages() {
                 data.images.forEach(imageUrl => {
                     // Tạo thẻ img để hiển thị ảnh
                     const imgElement = document.createElement('img');
-                    imgElement.src = `http://${getServerIPCookie()}:3000${imageUrl}`;
+                    imgElement.src = `${getServerIPCookie()}${imageUrl}`;
                     imgElement.classList.add('object-fit-cover', 'my-2', 'rounded-4', 'w-40', 'h-40', 'p-sm-border', 'mx-2');
 
                     // Thêm ảnh vào container
@@ -127,6 +127,10 @@ function dataURLtoBlob(dataURI) {
     }
     return new Blob([arrayBuffer], { type: 'image/png' });
 }
+function newImage() {
+    document.getElementById('imageList').prepend()
+}
+
 
 function uploadImage(imageData) {
     // Tạo đối tượng FormData để gửi ảnh lên server
@@ -134,7 +138,7 @@ function uploadImage(imageData) {
     formData.append('image', dataURLtoBlob(imageData));
 
     // Gửi ảnh qua fetch API
-    fetch(`http://${getServerIPCookie()}:3000/upload`, {
+    fetch(`${getServerIPCookie()}/upload`, {
         method: 'POST',
         body: formData
     })
@@ -146,8 +150,7 @@ function uploadImage(imageData) {
     })
     .then(data => {
         if (data.success) {
-            alert('Ảnh đã được tải lên thành công!');
-            loadImages(); // Tải lại danh sách ảnh sau khi upload
+            newImage(imageData);
         } else {
             alert('Có lỗi xảy ra khi tải ảnh lên!');
         }
