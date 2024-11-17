@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Image</title>
+</head>
+<body>
+    <h1>Upload Image to EC2</h1>
+    <form id="upload-form" enctype="multipart/form-data">
+        <label for="image">Choose an image to upload:</label>
+        <input type="file" id="image" name="image" accept="image/*" required><br><br>
+        <button type="submit">Upload</button>
+    </form>
+
+    <h2>Uploaded Image:</h2>
+    <img id="uploaded-image" src="" alt="Uploaded Image" style="max-width: 100%;"><br>
+
+    <h2>Latest Uploaded Image:</h2>
+    <img id="latest-image" src="" alt="Latest Image" style="max-width: 100%;"><br>
+
+    <button id="load-latest-btn">Load Latest Image</button>
+
+    <script>
+        // Handle the image upload
+        document.getElementById('upload-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData();
+            const fileInput = document.getElementById('image');
+            formData.append('image', fileInput.files[0]);
+
+            // Send the file to the server via POST request
+            fetch('http://104.197.39.177:3000/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display the uploaded image
+                const imageUrl = data.imageUrl;
+                document.getElementById('uploaded-image').src = imageUrl;
+                console.log('Image uploaded successfully:', imageUrl);
+            })
+            .catch(error => {
+                console.error('Error uploading image:', error);
+            });
+        });
+
+        // Load the latest image from the server
+        document.getElementById('load-latest-btn').addEventListener('click', function() {
+            fetch('http://104.197.39.177:3000/latest')
+            .then(response => response.json())
+            .then(data => {
+                const latestImageUrl = data.imageUrl;
+                document.getElementById('latest-image').src = latestImageUrl;
+            })
+            .catch(error => {
+                console.error('Error loading latest image:', error);
+            });
+        });
+    </script>
+</body>
+</html>

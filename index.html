@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoverLocket</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+</head>
+
+<body>
+    <div class="d-flex justify-content-center align-items-center vh-100 d-none" id="ipInputSection">
+        <div class="text-center">
+            <div class="my-3 fs-1">Server IP</div>
+            <input type="text" id="serverIP">
+            <!-- Lưu IP vào cookie -->
+            <div class="my-3 border border-2 p-2" id="connectButton">Connect</div>
+        </div>
+
+    </div>
+    <!-- Kiểm tra nếu đã có cookie thì không hiển thị phần yêu cầu nhập IP nữa -->
+    <div class="d-none" id="mainAppSection">
+        <div class="text-center">
+            <div class="fs-1 my-3">LoverLocket</div>
+            <div class="m-auto" style="height: 90vmin; width: 90vmin;">
+                <!-- Canvas chụp ảnh sẽ ở đây (full fill), tỉ lệ 1:1 và độ phân giản 720x720 -->
+                <canvas id="cameraCanvas" width="720" height="720" class="rounded-5 p-lg-border"></canvas>
+            </div>
+            <div class="p-pink-bg m-auto rounded-circle mt-3 d-flex justify-content-center align-items-center"
+                style="height: 20vmin; width: 20vmin" id="cameraIcon">
+                <i class="bi bi-camera"></i>
+            </div>
+        </div>
+        <div class="text-center">
+            <hr class="p-1 bg-white">
+            <div class="fs-1 my-3">Image list</div>
+            <div class="text-center">
+                <div class="m-auto rounded-5" id="imageList">
+                    <!-- Các ảnh được load sẽ ở đây (load tự động 10 ảnh gần nhất) -->
+                </div>
+                <!-- Các ảnh tiếp theo -->
+                <!-- Khi người dùng kéo xuống đến ảnh thứ 10 và kiểm tra server vẫn còn ảnh sẽ tiếp tục gửi request lấy tiếp 10 ảnh tiếp theo, lặp lại như vậy -->
+                <div id="loadMoreBtn" class="text-white mt-3 border border-2 p-2 w-50 m-auto my-3">Load more</div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

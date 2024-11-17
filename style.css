@@ -1,0 +1,36 @@
+.vh-100{
+    height: 100vh;
+}
+.p-lg-border{
+    border: 0.5rem solid #BBD58E
+}
+.p-sm-border{
+    border: 0.2rem solid white;
+}
+.p-pink-bg{
+    background-color: #ffc0cb;
+}
+body{
+    background-color: rgb(31, 31, 31);
+    color: white;
+    font-weight: bold;
+}
+.bi-camera{
+    font-size: 3rem;
+}
+.bi-camera::before {
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, -25%); /* Căn giữa */
+}
+#cameraCanvas {
+    width: 100%; /* Đặt chiều rộng canvas chiếm 100% của khung chứa */
+    height: 100%; /* Đặt chiều cao canvas chiếm 100% của khung chứa */
+    object-fit: contain; /* Giữ tỷ lệ khung hình của canvas */
+}
+.w-40 {
+    width: 45%;
+}
+.h-40 {
+    height: 45%;
+}

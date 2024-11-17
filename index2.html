@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load Latest Image from Google Drive</title>
+</head>
+<body>
+
+    <!-- Nơi nhập API Key -->
+    <input type="text" id="apiKeyInput" placeholder="Enter API Key">
+    <button id="saveApiKeyBtn">Save API Key</button>
+    <button id="loadImageBtn">Load Latest Image</button>
+    <img id="image" src="" alt="Image from Google Drive">
+
+    <script>
+        
+        function setCookie(name, value, days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            const expires = "expires=" + date.toUTCString();
+            document.cookie = name + "=" + value + ";" + expires + ";path=/";
+        }
+
+        
+        function getCookie(name) {
+            const decodedCookie = decodeURIComponent(document.cookie);
+            const cookieArr = decodedCookie.split(';');
+            for (let i = 0; i < cookieArr.length; i++) {
+                let c = cookieArr[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length+1, c.length);
+                }
+            }
+            return "";
+        }
+
+        
+        async function getFilesFromFolder(folderId, apiKey) {
+            const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}' in parents&key=${apiKey}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                console.log(data);
+                return data.files || [];
+            } catch (error) {
+                console.error('Error fetching files:', error);
+                return [];
+            }
+        }
+
+        
+        async function getLatestImage(folderId, apiKey) {
+            const files = await getFilesFromFolder(folderId, apiKey);
+            if (files.length === 0) {
+                alert('No files found in the folder.');
+                return;
+            }
+
+            
+            const latestFile = files.sort((a, b) => new Date(b.createdTime) - new Date(a.createdTime))[0];
+
+            
+            if (latestFile.mimeType.startsWith('image/')) {
+                const imageUrl = `https://www.googleapis.com/drive/v3/files/${latestFile.id}?alt=media&key=${apiKey}`;
+                const imgElement = document.getElementById('image');
+                imgElement.src = imageUrl;
+            } else {
+                alert('The latest file is not an image.');
+            }
+        }
+
+        
+        document.getElementById('saveApiKeyBtn').addEventListener('click', () => {
+            const apiKey = document.getElementById('apiKeyInput').value;
+            if (apiKey) {
+                setCookie('apiKey', apiKey, 7); 
+                alert('API Key saved!');
+            } else {
+                alert('Please enter an API Key.');
+            }
+        });
+
+        
+        document.getElementById('loadImageBtn').addEventListener('click', () => {
+            const folderId = '1LYe9-Dayf5U0MhtHrTnTBQfy7TT3y8sR';  
+            const apiKey = getCookie('apiKey');  
+
+            if (apiKey) {
+                getLatestImage(folderId, apiKey);
+            } else {
+                alert('Please save your API Key first.');
+            }
+        });
+    </script>
+
+</body>
+</html>
