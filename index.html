@@ -20,7 +20,7 @@
             <div class="my-3 fs-1">Server IP</div>
             <input type="text" id="serverIP">
             <!-- Lưu IP vào cookie -->
-            <div class="my-3 border border-2 p-2" id="connectButton">Connect</div>
+            <div class="my-3 p-2 bg-darkgreen" id="connectButton">Connect</div>
         </div>
 
     </div>
@@ -28,24 +28,25 @@
     <div class="d-none" id="mainAppSection">
         <div class="text-center">
             <div class="fs-1 my-3">WebLocket</div>
+
+            <div class="fs-1 position-absolute top-0 end-0 p-3" id="clearCookie"><i class="bi bi-x"></i></div>
             <div class="m-auto" style="height: 90vmin; width: 90vmin;">
                 <!-- Canvas chụp ảnh sẽ ở đây (full fill), tỉ lệ 1:1 và độ phân giản 720x720 -->
                 <canvas id="cameraCanvas" width="720" height="720" class="rounded-5 p-lg-border"></canvas>
             </div>
             <div class="position-relative my-3">
-                <div class="cameraContainer"
-                    style="height: 20vmin; width: 20vmin" id="cameraIcon">
+                <div class="cameraContainer" id="cameraIcon" style="width: min-content">
                     <i class="bi bi-camera"></i>
 
                 </div>
-                <div class="" id="switchButton">
+                <div class="d-none" id="switchButton">
                     <i class="bi bi-arrow-clockwise"></i>
                 </div>
             </div>
 
         </div>
         <div class="text-center">
-            <hr class="p-1 bg-white">
+            <!-- <hr class="p-1 bg-white c-darkgreen"> -->
             <div class="fs-1 my-3">Image list</div>
             <div class="text-center">
                 <div class="m-auto rounded-5" id="imageList">
@@ -53,7 +54,7 @@
                 </div>
                 <!-- Các ảnh tiếp theo -->
                 <!-- Khi người dùng kéo xuống đến ảnh thứ 10 và kiểm tra server vẫn còn ảnh sẽ tiếp tục gửi request lấy tiếp 10 ảnh tiếp theo, lặp lại như vậy -->
-                <div id="loadMoreBtn" class="text-white mt-3 border border-2 p-2 w-50 m-auto my-3">Load more</div>
+                <div id="loadMoreBtn" class="text-white mt-3 p-2 w-50 m-auto my-3 bg-darkgreen">Load more</div>
             </div>
         </div>
     </div>

@@ -60,3 +60,17 @@ body{
     padding: 0.5rem;
     border-radius: 50%;
 }
+.c-darkgreen{
+    color: #464f2b;
+    
+}
+
+.bg-darkgreen{
+    background-color: #464f2b; 
+}
+* {
+    user-select: none; /* Ngăn việc bôi đen văn bản */
+    -webkit-user-select: none; /* Cho trình duyệt WebKit (Chrome, Safari) */
+    -moz-user-select: none; /* Cho Firefox */
+    -ms-user-select: none; /* Cho Internet Explorer/Edge */
+  } 

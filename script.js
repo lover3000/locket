@@ -237,3 +237,8 @@ function uploadImage(imageData) {
         alert('Không thể tải ảnh lên!');
     });
 }
+
+document.getElementById("clearCookie").addEventListener("click", () => {
+    document.cookie = "serverIP=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+    display();
+});    
