@@ -2,16 +2,16 @@
     height: 100vh;
 }
 .p-lg-border{
-    border: 0.5rem solid #BBD58E
+    border: 0.5rem solid #464f2b
 }
 .p-sm-border{
-    border: 0.2rem solid #BBD58E;
+    border: 0.2rem solid #464f2b;
 }
 .p-pink-bg{
     background-color: #ffc0cb;
 }
 body{
-    background-color: #7fc67a;
+    background-color: #819152;
     color: white;
     font-weight: bold;
 }
@@ -22,7 +22,7 @@ body{
     position: relative;
     left: 50%;
     transform: translate(-50%, 0%); /* Căn giữa */
-    background-color: #BBD58E;
+    background-color: #464f2b;
     padding: 1rem;
     border-radius: 50%;
 }
@@ -56,7 +56,7 @@ body{
     position: relative;
     left: 50%;
     transform: translate(-50%, 0%); /* Căn giữa */
-    background-color: #BBD58E;
+    background-color: #464f2b;
     padding: 0.5rem;
     border-radius: 50%;
 }
