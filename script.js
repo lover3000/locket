@@ -12,23 +12,61 @@ if (!canvas || !ctx) {
 }
 
 // Thiết lập camera (ví dụ với WebRTC)
-navigator.mediaDevices.getUserMedia({ video: true })
-    .then(stream => {
-        // Gán video stream vào một video element tạm thời
-        const video = document.createElement('video');
-        video.srcObject = stream;
-        video.play();
+navigator.mediaDevices.getUserMedia({
+    video: { 
+        facingMode: { ideal: 'environment' } // Mặc định dùng camera sau
+    } 
+})
+.then(stream => {
+    // Gán video stream vào một video element tạm thời
+    const video = document.createElement('video');
+    video.srcObject = stream;
+    video.play();
+
+    video.onloadedmetadata = () => {
+        const videoWidth = video.videoWidth;
+        const videoHeight = video.videoHeight;
+
+        // Tính toán vùng cắt để tạo hình ảnh 1:1
+        let cropX = 0;
+        let cropY = 0;
+        let cropSize = 0;
+
+        if (videoWidth > videoHeight) {
+            // Video rộng hơn -> cắt hai bên
+            cropSize = videoHeight;
+            cropX = (videoWidth - cropSize) / 2; // Cắt đều từ hai bên
+        } else {
+            // Video cao hơn hoặc bằng -> cắt trên và dưới
+            cropSize = videoWidth;
+            cropY = (videoHeight - cropSize) / 2; // Cắt đều từ trên và dưới
+        }
+
+        // Xóa canvas trước khi vẽ
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // Vẽ video vào canvas mỗi frame
         function draw() {
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            ctx.drawImage(
+                video,            // Video nguồn
+                cropX,            // Bắt đầu cắt từ X
+                cropY,            // Bắt đầu cắt từ Y
+                cropSize,         // Chiều rộng vùng cắt
+                cropSize,         // Chiều cao vùng cắt
+                0,                // Vẽ bắt đầu từ X của canvas
+                0,                // Vẽ bắt đầu từ Y của canvas
+                canvas.width,     // Chiều rộng canvas
+                canvas.height     // Chiều cao canvas
+            );
             requestAnimationFrame(draw); // Tiếp tục vẽ ở frame tiếp theo
         }
         draw();
-    })
-    .catch(err => {
-        console.error("Không thể truy cập camera:", err);
-    });
+    };
+})
+.catch(err => {
+    console.error("Không thể truy cập camera:", err);
+});
+
 
 
 function loadImages() {
