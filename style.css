@@ -5,13 +5,13 @@
     border: 0.5rem solid #BBD58E
 }
 .p-sm-border{
-    border: 0.2rem solid white;
+    border: 0.2rem solid #BBD58E;
 }
 .p-pink-bg{
     background-color: #ffc0cb;
 }
 body{
-    background-color: rgb(31, 31, 31);
+    background-color: #7fc67a;
     color: white;
     font-weight: bold;
 }
@@ -21,12 +21,21 @@ body{
 .bi-camera::before {
     position: relative;
     left: 50%;
-    transform: translate(-50%, -25%); /* Căn giữa */
+    transform: translate(-50%, 0%); /* Căn giữa */
+    background-color: #BBD58E;
+    padding: 1rem;
+    border-radius: 50%;
 }
 #cameraCanvas {
     width: 100%; /* Đặt chiều rộng canvas chiếm 100% của khung chứa */
     height: 100%; /* Đặt chiều cao canvas chiếm 100% của khung chứa */
     object-fit: contain; /* Giữ tỷ lệ khung hình của canvas */
+}
+#cameraIcon {
+    position: relative;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, 0%); /* Căn giữa */
 }
 .w-40 {
     width: 45%;
