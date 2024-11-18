@@ -66,7 +66,7 @@ navigator.mediaDevices.getUserMedia({
 .catch(err => {
     console.error("Không thể truy cập camera:", err);
 });
-
+let isFrontCamera = true;
 async function switchCamera() {
     // Nếu đã có stream, dừng tất cả các track
     if (currentStream) {
