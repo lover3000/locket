@@ -1,6 +1,8 @@
 let currentPage = 1;
 const limit = 20; 
 let imagesLoaded = 0; 
+let currentStream; // Để lưu stream hiện tại
+let isFrontCamera = false; // Mặc định là camera sau
 
 
 const canvas = document.getElementById('cameraCanvas');
@@ -66,7 +68,6 @@ navigator.mediaDevices.getUserMedia({
 .catch(err => {
     console.error("Không thể truy cập camera:", err);
 });
-let isFrontCamera = true;
 async function switchCamera() {
     // Nếu đã có stream, dừng tất cả các track
     if (currentStream) {
@@ -77,13 +78,28 @@ async function switchCamera() {
         // Chuyển đổi giữa camera trước và sau
         const constraints = {
             video: {
-                facingMode: isFrontCamera ? 'environment' : 'user' // 'environment' là camera sau, 'user' là camera trước
+                facingMode: isFrontCamera ? 'user' : 'environment' // 'user' là camera trước, 'environment' là camera sau
             }
         };
 
         currentStream = await navigator.mediaDevices.getUserMedia(constraints);
-        videoElement.srcObject = currentStream;
-        videoElement.play();
+
+        // Cập nhật stream mới vào canvas hoặc video
+        const video = document.createElement('video'); // Tạo video tạm
+        video.srcObject = currentStream;
+        video.play();
+
+        video.onloadedmetadata = () => {
+            const videoWidth = video.videoWidth;
+            const videoHeight = video.videoHeight;
+
+            // Vẽ lại trên canvas
+            function draw() {
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                requestAnimationFrame(draw);
+            }
+            draw();
+        };
 
         // Đảo trạng thái camera
         isFrontCamera = !isFrontCamera;
@@ -92,6 +108,7 @@ async function switchCamera() {
         alert('Lỗi khi chuyển đổi camera');
     }
 }
+
 
 document.getElementById("switchButton").addEventListener("click", switchCamera);
 
