@@ -34,3 +34,20 @@ body{
 .h-40 {
     height: 45%;
 }
+#switchButton {
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+}
+.bi-arrow-clockwise{
+    font-size: 2rem;
+}
+.bi-arrow-clockwise::before {
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0%); /* Căn giữa */
+    background-color: #BBD58E;
+    padding: 0.5rem;
+    border-radius: 50%;
+}

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LoverLocket</title>
+    <title>WebLocket</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -30,12 +30,19 @@
             <div class="fs-1 my-3">WebLocket</div>
             <div class="m-auto" style="height: 90vmin; width: 90vmin;">
                 <!-- Canvas chụp ảnh sẽ ở đây (full fill), tỉ lệ 1:1 và độ phân giản 720x720 -->
-                <canvas id="cameraCanvas" width="320" height="320" class="rounded-5 p-lg-border"></canvas>
+                <canvas id="cameraCanvas" width="720" height="720" class="rounded-5 p-lg-border"></canvas>
             </div>
-            <div class="p-pink-bg m-auto rounded-circle mt-3 d-flex justify-content-center align-items-center"
-                style="height: 20vmin; width: 20vmin" id="cameraIcon">
-                <i class="bi bi-camera"></i>
+            <div class="position-relative">
+                <div class="p-pink-bg m-auto rounded-circle mt-3 d-flex justify-content-center align-items-center"
+                    style="height: 20vmin; width: 20vmin" id="cameraIcon">
+                    <i class="bi bi-camera"></i>
+
+                </div>
+                <div class="" id="switchButton">
+                    <i class="bi bi-arrow-clockwise"></i>
+                </div>
             </div>
+
         </div>
         <div class="text-center">
             <hr class="p-1 bg-white">

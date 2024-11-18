@@ -67,14 +67,39 @@ navigator.mediaDevices.getUserMedia({
     console.error("Không thể truy cập camera:", err);
 });
 
+async function switchCamera() {
+    // Nếu đã có stream, dừng tất cả các track
+    if (currentStream) {
+        currentStream.getTracks().forEach(track => track.stop());
+    }
 
-
-function loadImages() {
-    fetch(`${getServerIPCookie()}/images?page=${currentPage}&limit=${limit}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Không thể tải ảnh');
+    try {
+        // Chuyển đổi giữa camera trước và sau
+        const constraints = {
+            video: {
+                facingMode: isFrontCamera ? 'environment' : 'user' // 'environment' là camera sau, 'user' là camera trước
             }
+        };
+
+        currentStream = await navigator.mediaDevices.getUserMedia(constraints);
+        videoElement.srcObject = currentStream;
+        videoElement.play();
+
+        // Đảo trạng thái camera
+        isFrontCamera = !isFrontCamera;
+    } catch (error) {
+        console.error('Không thể chuyển đổi camera:', error);
+        alert('Lỗi khi chuyển đổi camera');
+    }
+}
+
+document.getElementById("switchButton").addEventListener("click", switchCamera);
+
+function loadImages(newImage = false) {
+    let baseUrl = `${getServerIPCookie()}/images?page=${currentPage}&limit=${limit}`;
+    if(newImage) baseUrl = `${getServerIPCookie()}/images?page=${1}&limit=${1}`;
+    fetch(baseUrl)
+        .then(response => {
             return response.json();
         })
         .then(data => {
@@ -87,7 +112,9 @@ function loadImages() {
                     imgElement.classList.add('object-fit-cover', 'my-2', 'rounded-4', 'w-40', 'h-40', 'p-sm-border', 'mx-2');
 
                     // Thêm ảnh vào container
-                    imageListContainer.appendChild(imgElement);
+                    if(newImage) imageListContainer.prepend(imgElement);
+                    else imageListContainer.appendChild(imgElement);
+
                 });
 
                 // Tăng trang sau khi tải ảnh
@@ -97,8 +124,7 @@ function loadImages() {
             }
         })
         .catch(error => {
-            console.error('Lỗi khi tải ảnh:', error);
-            alert('Không thể tải ảnh!');
+            console.error('Không tìm thấy ảnh:', error);
         });
 }
 
@@ -165,10 +191,6 @@ function dataURLtoBlob(dataURI) {
     }
     return new Blob([arrayBuffer], { type: 'image/png' });
 }
-function newImage() {
-    document.getElementById('imageList').prepend()
-}
-
 
 function uploadImage(imageData) {
     // Tạo đối tượng FormData để gửi ảnh lên server
@@ -188,7 +210,7 @@ function uploadImage(imageData) {
     })
     .then(data => {
         if (data.success) {
-            newImage(imageData);
+            loadImages(true);
         } else {
             alert('Có lỗi xảy ra khi tải ảnh lên!');
         }
